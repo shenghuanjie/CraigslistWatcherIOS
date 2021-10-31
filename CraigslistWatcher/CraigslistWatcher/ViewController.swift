@@ -158,7 +158,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         
         setParams()
         
-        savedPostIds = defaults.stringArray(forKey: defaultsKeys.postIds)!
+        let savedPostIdsTmp = defaults.stringArray(forKey: defaultsKeys.postIds)
+        if (savedPostIdsTmp != nil){
+            savedPostIds = savedPostIdsTmp!
+        }else{
+            savedPostIds = []
+        }
         
         if (!triggerButton.isSelected){
             scheduledTimerWithTimeInterval()
