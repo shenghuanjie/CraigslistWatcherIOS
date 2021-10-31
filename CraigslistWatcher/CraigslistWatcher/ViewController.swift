@@ -716,3 +716,100 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
 //
 ////scheduledTimerWithTimeInterval()
 
+
+//test_string2 == """
+//    <div class="open-map-view-button">
+//        <span>see in map view</span>
+//    </div>
+//    <div id="mapcontainer" data-arealat="37.500000" data-arealon="-122.250000">
+//        <div id="noresult-overlay"></div>
+//        <div id="noresult-text">
+//            <span class="message">No mappable items found</span>
+//        </div>
+//        <div id="map" class="loading">
+//            <div class="close-full-screen-map-mode-button">close fullscreen</div>
+//        </div>
+//    </div>
+//
+//                    <ul class="rows" id="search-results">
+//                                 <li class="result-row" data-pid="7400210117">
+//
+//            <a href="https://sfbay.craigslist.org/eby/zip/d/fremont-christnas-tree-halloweeb-costume/7400210117.html" class="result-image gallery" data-ids="3:00a0a_8CtibmsjFegz_0t20CI">
+//            </a>
+//
+//        <div class="result-info">
+//            <span class="icon icon-star" role="button">
+//                <span class="screen-reader-text">favorite this post</span>
+//            </span>
+//
+//                <time class="result-date" datetime="2021-10-28 00:46" title="Thu 28 Oct 12:46:53 AM">Oct 28</time>
+//
+//
+//            <h3 class="result-heading">
+//                <a href="https://sfbay.craigslist.org/eby/zip/d/fremont-christnas-tree-halloweeb-costume/7400210117.html" data-id="7400210117" class="result-title hdrlnk" id="postid_7400210117" >christnas tree halloweeb costume</a>
+//            </h3>
+//
+//            <span class="result-meta">
+//
+//
+//                    <span class="result-hood"> (Fremont east bay area )</span>
+//
+//                    <span class="result-tags">
+//                        <span class="pictag">pic</span>
+//                        <span class="maptag">4.8mi</span>
+//                    </span>
+//
+//                    <span class="banish icon icon-trash" role="button">
+//                        <span class="screen-reader-text">hide this posting</span>
+//                    </span>
+//
+//                <span class="unbanish icon icon-trash red" role="button" aria-hidden="true"></span>
+//                <a href="#" class="restore-link">
+//                    <span class="restore-narrow-text">restore</span>
+//                    <span class="restore-wide-text">restore this posting</span>
+//                </a>
+//
+//            </span>
+//        </div>
+//    </li>
+//             <li class="result-row" data-pid="7400200966">
+//
+//            <a href="https://sfbay.craigslist.org/sby/zip/d/fremont-free-macys-sofa/7400200966.html" class="result-image gallery" data-ids="3:00Z0Z_h1zB1KxL5L5z_0CI0t2">
+//            </a>
+//
+//        <div class="result-info">
+//            <span class="icon icon-star" role="button">
+//                <span class="screen-reader-text">favorite this post</span>
+//            </span>
+//
+//                <time class="result-date" datetime="2021-10-27 22:52" title="Wed 27 Oct 10:52:04 PM">Oct 27</time>
+//
+//
+//            <h3 class="result-heading">
+//                <a href="https://sfbay.craigslist.org/sby/zip/d/fremont-free-macys-sofa/7400200966.html" data-id="7400200966" class="result-title hdrlnk" id="postid_7400200966" >Free Macy&#39;s sofa</a>
+//            </h3>
+//
+//            <span class="result-meta">
+//
+//
+//                    <span class="result-hood"> (milpitas)</span>
+//
+//                    <span class="result-tags">
+//                        <span class="pictag">pic</span>
+//                        <span class="maptag">2.5mi</span>
+//                    </span>
+//
+//                    <span class="banish icon icon-trash" role="button">
+//                        <span class="screen-reader-text">hide this posting</span>
+//                    </span>
+//
+//                <span class="unbanish icon icon-trash red" role="button" aria-hidden="true"></span>
+//                <a href="#" class="restore-link">
+//                    <span class="restore-narrow-text">restore</span>
+//                    <span class="restore-wide-text">restore this posting</span>
+//                </a>
+//
+//            </span>
+//        </div>
+//    </li>
+//    """
