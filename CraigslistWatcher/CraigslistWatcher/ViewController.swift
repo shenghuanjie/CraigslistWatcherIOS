@@ -387,11 +387,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         //print()
         if(self.newPostIds.contains(post[postInfos.id])){
             // print(post[postInfos.id] + " is contained")
-            cell.textLabel?.textColor = .red
+            if (self.traitCollection.userInterfaceStyle == .dark) {
+                cell.textLabel?.textColor = .yellow
+            }else{
+                cell.textLabel?.textColor = .red
+            }
         }
         else{
             // print(post[postInfos.id] + " not found")
-            cell.textLabel?.textColor = .black
+            cell.textLabel?.textColor = .label
         }
         //cell.detailTextLabel?.text = location
         return cell
