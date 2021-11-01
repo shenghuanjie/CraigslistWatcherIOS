@@ -16,6 +16,7 @@ struct defaultsKeys {
     static let hasImage = "hasImage"
     static let postedToday = "postedToday"
     static let postIds = "CraigslistPostIds"
+    static let timerInterval = "timerInterval"
 }
 
 let defaultParams = [
@@ -25,6 +26,7 @@ let defaultParams = [
     "addtionalFilters": "",
     "hasImage": false,
     "postedToday": true,
+    "timerInterval": 45
 ] as [String : Any]
 
 //0:all, 1:link, 2:name 3:pic 4:time, 5:id, 6:titlex
@@ -113,6 +115,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     @IBOutlet weak var debugText: UILabel!
     @IBOutlet weak var listPosts: UITableView!
     @IBOutlet weak var triggerButton: UIButton!
+    @IBOutlet weak var timerIntervalText: UITextField!
+    @IBOutlet weak var timerIntervalSlider: UISlider!
     
     //var audioPlayer : AVPlayer!
     var audioPlayer : AVAudioPlayer!
@@ -129,7 +133,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     
     // timer
     var timer = Timer()
-    var timerInterval = 10
+    var timerInterval = 30
     
     // create a sound ID, in this case its the tweet sound.
     let systemSoundID: SystemSoundID = 1016
@@ -165,7 +169,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
             savedPostIds = []
         }
         
-        if (!triggerButton.isSelected){
+        timerInterval = defaults.integer(forKey: defaultsKeys.timerInterval)
+        if(timerInterval == 0){
+            timerInterval = defaultParams["timerInterval"] as! Int
+        }
+        
+        timerIntervalSlider.value = Float(timerInterval)
+        timerIntervalText.text = String(timerInterval)
+        
+        if (triggerButton.isSelected){
             scheduledTimerWithTimeInterval()
         }
     }
@@ -180,7 +192,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         mileageInput.text = mileageInputString
         
         var postalCodeString = defaults.string(forKey: defaultsKeys.postalCodeInput)
-        if (postalCodeString == nil){
+        if (postalCodeString == nil) || (postalCodeString!.count == 0){
             postalCodeString = (defaultParams["postalCodeInput"] as! String)
         }else{
             postalCodeString = postalCodeString!
@@ -241,12 +253,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         defaults.set(sender.isOn, forKey: defaultsKeys.postedToday)
     }
     
+    @IBAction func changedTimeIntervalSlider(_ sender: UISlider) {
+        self.timerInterval = Int(sender.value)
+        self.timerIntervalText.text = String(self.timerInterval)
+    }
+    
+    @IBAction func typedTimeIntervalText(_ sender: UITextField) {
+        self.timerInterval = Int(sender.text!) ?? 30
+        self.timerIntervalSlider.value = Float(self.timerInterval)
+    }
     
     @IBAction func reset(_ sender: UIButton) {
         print("reset is clicked");
         defaults.setValue([], forKey: defaultsKeys.postIds)
         self.savedPostIds = []
-        print(self.savedPostIds)
+        // testSearchPosts()
     }
     
     @IBAction func open(_ sender: UIButton) {
@@ -258,19 +279,84 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
 
     @IBAction func stop(_ sender: UIButton) {
         if (sender.isSelected){
-            sender.setTitle("Stop", for: .normal)
-            scheduledTimerWithTimeInterval()
-        }else{
             sender.setTitle("Start", for: .selected)
             pauseTimer()
+        }else{
+            sender.setTitle("Stop", for: .normal)
+            scheduledTimerWithTimeInterval()
         }
         sender.isSelected = !sender.isSelected
+    }
+    
+    func testSearchPosts(){
+        let test_string = """
+<div class="open-map-view-button">
+    <span>see in map view</span>
+</div>
+<div id="mapcontainer" data-arealat="37.500000" data-arealon="-122.250000">
+    <div id="noresult-overlay"></div>
+    <div id="noresult-text">
+        <span class="message">No mappable items found</span>
+    </div>
+    <div id="map" class="loading">
+        <div class="close-full-screen-map-mode-button">close fullscreen</div>
+    </div>
+</div>
+
+                <ul class="rows" id="search-results">
+                             <li class="result-row" data-pid="7401899571">
+
+        <a href="https://sfbay.craigslist.org/eby/zip/d/fremont-white-box-amd-athalon-win98-pc/7401899571.html" class="result-image gallery" data-ids="3:00r0r_doEYG6HnnQZz_06s09i,3:00r0r_l6GyzD4yRYNz_0aO09i,3:00S0S_9sxDllh0kpYz_04H09i">
+        </a>
+
+    <div class="result-info">
+        <span class="icon icon-star" role="button">
+            <span class="screen-reader-text">favorite this post</span>
+        </span>
+
+            <time class="result-date" datetime="2021-11-01 00:18" title="Mon 01 Nov 12:18:32 AM">Nov  1</time>
+
+
+        <h3 class="result-heading">
+            <a href="https://sfbay.craigslist.org/eby/zip/d/fremont-white-box-amd-athalon-win98-pc/7401899571.html" data-id="7401899571" class="result-title hdrlnk" id="postid_7401899571" >White Box AMD Athalon Win98 PC</a>
+        </h3>
+
+        <span class="result-meta">
+
+
+                <span class="result-hood"> (fremont / union city / newark)</span>
+
+                <span class="result-tags">
+                    <span class="pictag">pic</span>
+                    <span class="maptag">2.6mi</span>
+                </span>
+
+                <span class="banish icon icon-trash" role="button">
+                    <span class="screen-reader-text">hide this posting</span>
+                </span>
+
+            <span class="unbanish icon icon-trash red" role="button" aria-hidden="true"></span>
+            <a href="#" class="restore-link">
+                <span class="restore-narrow-text">restore</span>
+                <span class="restore-wide-text">restore this posting</span>
+            </a>
+
+        </span>
+    </div>
+</li>
+"""
+        do {
+            let myPosts = try searchForPosts(test_string)
+            print(myPosts.compactMap({ $0[postInfos.title] + ":" + $0[postInfos.id] }))
+        } catch let error {
+            print("error in searching \(error)")
+        }
     }
     
     func searchForPosts(_ input: String) throws -> Array<Array<String>>{
         //1: link, 2: title, 3: image, 4: time, 5: id, 6: name
         let pattern =
-            "<a href=\"(https://sfbay.craigslist.org/sby/zip/d/(.*?)/\\d+.html)\" class=\"result-image gallery\" data-ids=\"\\d+:(.*?)\">"
+            "<a href=\"(https://sfbay.craigslist.org/.*?/zip/d/(.*?)/\\d+.html)\" class=\"result-image gallery\" data-ids=\"\\d+:(.*?)\">"
             + "[\n\r| ]*" + "</a>" + "[\n\r| ]*"
             + "<div class=\"result-info\">" + "[\n\r| ]*"
             + "<span class=\"icon icon-star\" role=\"button\">" + "[\n\r| ]*"
@@ -288,7 +374,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     
-    private func get_craigslist_link(distance: String = "25", postcode: String = "94538", hasPic: Bool = false, postedToday: Bool = true) -> String {
+    private func get_craigslist_link(distance: String = "25", postcode: String = "94538", hasPic: Bool = false, postedToday: Bool = true, keywords: String="", additional: String = "") -> String {
         var hasPicString = ""
         if(hasPic){
             hasPicString = "&hasPic=1"
@@ -313,12 +399,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }else{
             postCodeString = postcode
         }
-        let myURLString = "https://sfbay.craigslist.org/d/free-stuff/search/sby/zip?sort=date" + hasPicString + postedTodayString + "&search_distance=" + distanceString + "&postal=" + postCodeString + "&"
+        var keywordsString = ""
+        if (keywords.count > 0){
+            keywordsString = "query=" + keywords + "&"
+        }
+        var myURLString = "https://sfbay.craigslist.org/d/free-stuff/search/sby/zip?" + keywordsString + "sort=date" + "&postal=" + postCodeString + hasPicString + postedTodayString + "&search_distance=" + distanceString + additional
+        
+        myURLString = myURLString.replacingOccurrences(of: "|", with: "%7C").replacingOccurrences(of: " ", with: "+")
+        
         return myURLString
     }
     
     func get_current_craigslist_link() -> String{
-        return get_craigslist_link(distance: mileageInput.text!, postcode: postalCodeInput.text!, hasPic: hasImage.isOn, postedToday: postedToday.isOn)
+        return get_craigslist_link(distance: mileageInput.text!, postcode: postalCodeInput.text!, hasPic: hasImage.isOn, postedToday: postedToday.isOn, keywords: keywordsInput.text!, additional: addtionalFilters.text!)
     }
     
     func get_craigslist_posts() ->  Array<Array<String>> {
@@ -340,11 +433,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
             let response = response as! HTTPURLResponse
             let data = data!
             print(NSString(format:"task finished with status %d, bytes %d", response.statusCode, data.count))
+            if (response.statusCode != 200){
+                print("response error: ", data)
+            }
         }.resume()
 
         do {
             let myHTMLString = try String(contentsOf: myURL, encoding: .ascii)
-            // print("HTML : \(myHTMLString)")
+            // print("\(myHTMLString)")
             
             do {
                 // let mySearchResult = try self.searchForPosts(testHTMLString);
@@ -424,17 +520,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         }
     }
     
-    func scheduledSoundWithTimeInterval(){
-        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(self.playTestSound), userInfo: nil, repeats: true)
-        self.timer.fire()
-    }
+//    func scheduledSoundWithTimeInterval(){
+//        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+//        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(self.timerInterval), target: self, selector: #selector(self.playTestSound), userInfo: nil, repeats: true)
+//        self.timer.fire()
+//    }
     
     @objc func playTestSound(){
         AudioServicesPlaySystemSound(1327)
     }
 
     func scheduledTimerWithTimeInterval(){
+        print(self.timerInterval)
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
         self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(self.timerInterval), target: self, selector: #selector(self.updateCounting), userInfo: nil, repeats: true)
         self.timer.fire()
@@ -465,10 +562,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
         if self.newPostIds.count > 0 {
             // print(postIds)
             // print(self.newPostIds)
-            self.debugText.text = self.foundPosts[0].joined(separator: " | ")
+            self.debugText.text = getCurrentTime() + " " + String(self.newPostIds.count) + " new posts found!"
             AudioServicesPlaySystemSound(self.systemSoundID)
         }else {
-            self.debugText.text = "no post found!"
+            self.debugText.text = getCurrentTime() + " no new post found!"
+            // print(self.foundPosts.compactMap({ $0[postInfos.title] + ":" + $0[postInfos.id] }))
+            // print(self.savedPostIds)
         }
         
         DispatchQueue.main.async {
@@ -481,39 +580,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelega
     }
     
     func backgroundSearch(){
+        print("stop is clicked")
+        self.foundPosts = get_craigslist_posts()
         
-            print("stop is clicked")
-            self.foundPosts = get_craigslist_posts()
+        //TODO: expand with new post
+        
+        //0: all, 1: link, 2: name, 3: image, 4: time, 5: id, 6: title
+        let postIds = foundPosts.compactMap({ $0[postInfos.id] })
+        self.newPostIds = postIds.difference(from: self.savedPostIds)
+        // newPosts = foundPosts.filter({newIds.contains($0[postInfos.id])})
+        var allIds = postIds + self.savedPostIds
+        allIds = allIds.unique()
+        if (allIds.count > maxPostsSaved){
+            allIds = Array(allIds[..<maxPostsSaved])
+        }
+        defaults.setValue(allIds, forKey: defaultsKeys.postIds)
+        
+        if self.newPostIds.count > 0 {
+            print(postIds)
+            print(self.newPostIds)
+            debugText.text = foundPosts[0].joined(separator: " | ")
+            AudioServicesPlaySystemSound(systemSoundID)
+        }else {
+            debugText.text = "no post found!"
+        }
+        
+        DispatchQueue.main.async {
+            self.listPosts.reloadData();
             
-            //TODO: expand with new post
-            
-            //0: all, 1: link, 2: name, 3: image, 4: time, 5: id, 6: title
-            let postIds = foundPosts.compactMap({ $0[postInfos.id] })
-            self.newPostIds = postIds.difference(from: self.savedPostIds)
-            // newPosts = foundPosts.filter({newIds.contains($0[postInfos.id])})
-            var allIds = postIds + self.savedPostIds
-            allIds = allIds.unique()
-            if (allIds.count > maxPostsSaved){
-                allIds = Array(allIds[..<maxPostsSaved])
-            }
-            defaults.setValue(allIds, forKey: defaultsKeys.postIds)
-            
-            if self.newPostIds.count > 0 {
-                print(postIds)
-                print(self.newPostIds)
-                debugText.text = foundPosts[0].joined(separator: " | ")
-                AudioServicesPlaySystemSound(systemSoundID)
-            }else {
-                debugText.text = "no post found!"
-            }
-            
-            DispatchQueue.main.async {
-                self.listPosts.reloadData();
-                
-                // after we update the table view, we can update the list
-                // self.savedPostIds = allIds
-                self.setSavedPostIds(allIds)
-            }
+            // after we update the table view, we can update the list
+            // self.savedPostIds = allIds
+            self.setSavedPostIds(allIds)
+        }
+    }
+    
+    func getCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm:ss a" // "a" prints "pm" or "am"
+        let timeString = formatter.string(from: Date()) // "12 AM"
+        return timeString
     }
     
 //    func setupScreens() {

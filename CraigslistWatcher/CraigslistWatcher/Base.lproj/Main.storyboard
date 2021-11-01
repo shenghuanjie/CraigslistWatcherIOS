@@ -21,7 +21,7 @@
                                 <rect key="frame" x="52" y="76" width="97" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                 <connections>
                                     <action selector="typedMileageInput:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="G5B-oj-kuN"/>
                                 </connections>
@@ -37,7 +37,7 @@
                                 <rect key="frame" x="205" y="76" width="97" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                 <connections>
                                     <action selector="typedPostalCodeInput:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="mIt-v4-JV8"/>
                                 </connections>
@@ -107,16 +107,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ln-1E-Ldp">
-                                <rect key="frame" x="188" y="368" width="52" height="36"/>
+                                <rect key="frame" x="190" y="417" width="43" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Stop"/>
+                                <state key="normal" title="Start"/>
                                 <connections>
                                     <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IZw-PK-pIU"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DJ8-Ng-1GV">
-                                <rect key="frame" x="52" y="366" width="62" height="40"/>
+                                <rect key="frame" x="49" y="415" width="62" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Open"/>
@@ -124,8 +124,8 @@
                                     <action selector="open:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KEv-As-w4T"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7o-IY-Flb">
-                                <rect key="frame" x="52" y="416" width="323" height="60"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7o-IY-Flb">
+                                <rect key="frame" x="53" y="448" width="323" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -137,7 +137,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kaX-G9-bTo">
-                                <rect key="frame" x="318" y="370" width="50" height="36"/>
+                                <rect key="frame" x="315" y="419" width="50" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Reset"/>
@@ -145,6 +145,29 @@
                                     <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cBQ-0T-A0I"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" minValue="10" maxValue="120" translatesAutoresizingMaskIntoConstraints="NO" id="F9I-uV-vUi">
+                                <rect key="frame" x="52" y="370" width="252" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="changedTimeIntervalSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="RKV-Dr-muE"/>
+                                </connections>
+                            </slider>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gwL-pS-zrq">
+                                <rect key="frame" x="310" y="370" width="42" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                <connections>
+                                    <action selector="typedTimeIntervalText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OCr-xt-R1W"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbT-fL-TYS">
+                                <rect key="frame" x="356" y="377" width="13" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -159,6 +182,8 @@
                         <outlet property="mileageInput" destination="1Za-S6-6Ol" id="0rH-bR-QvA"/>
                         <outlet property="postalCodeInput" destination="Geh-6d-FYA" id="2cs-r9-Rfj"/>
                         <outlet property="postedToday" destination="viy-j0-Zul" id="UrF-vW-IGF"/>
+                        <outlet property="timerIntervalSlider" destination="F9I-uV-vUi" id="147-nu-MCf"/>
+                        <outlet property="timerIntervalText" destination="gwL-pS-zrq" id="XuK-Ij-fhU"/>
                         <outlet property="triggerButton" destination="0Ln-1E-Ldp" id="MIl-sb-mAA"/>
                         <segue destination="67y-PW-cgY" kind="show" identifier="showPosts" id="rQC-NJ-Kpi"/>
                     </connections>
